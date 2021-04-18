@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exam.dao.AdminMapper">
+
+	<!-- 用户返回映射 -->
+	<resultMap id="UserResultMap" type="com.exam.entity.Users">
+		<id column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_pass" property="userPass" jdbcType="VARCHAR" />
+		<result column="permission" property="permission" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 用户SQL段 -->
+	<sql id="User_Column_List">
+		user_id, user_name, user_pass, permission
+	</sql>
+
+	<select id="findByUser" parameterType="com.exam.entity.Users"
+		resultMap="UserResultMap">
+		SELECT
+		<include refid="User_Column_List"></include>
+		FROM
+		`users`
+		WHERE
+		user_id = #{userId}
+		AND user_pass = #{userPass}
+	</select>
+
+</mapper>

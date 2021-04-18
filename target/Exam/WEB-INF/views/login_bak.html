@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Exam - 考试系统</title>
+
+    <!-- TODC Bootstrap core CSS -->
+    <link href="/static/assets/yeti/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+		body {
+		  padding-top: 60px;
+		  padding-bottom: 40px;
+		  background-color: #fff;
+		}
+		#login-box {
+			margin-top: 30px;
+		}		
+		.form-login {
+		  max-width: 330px;
+		  padding: 15px;
+		  margin: 0 auto;
+		}
+		.login-title {
+		  margin: 0 0 15px;
+		  font-size: 25px;
+		  font-weight: 500;
+		  color: #555;
+		}
+		.form-login .form-control {
+		  position: relative;
+		  height: auto;
+		  -webkit-box-sizing: border-box;
+		     -moz-box-sizing: border-box;
+		          box-sizing: border-box;
+		  padding: 10px;
+		  font-size: 16px;
+		}
+		.form-login .form-control:focus {
+		  z-index: 2;
+		}
+		.form-login input[name="userId"] {
+		  margin-bottom: 10px;
+		}
+		.form-login input[type="password"] {
+		  margin-bottom: 10px;
+		}
+		.box {
+		  width: 304px;
+		  padding: 20px 25px 30px;
+		  margin: 0 auto 25px;
+		  background-color: #f7f7f7;
+		  border-radius: 2px;
+		  box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+		}
+		.box-login {
+		  width: 354px;
+		  padding: 40px;
+		}
+		.box-login .profile-img {
+		  display: block;
+		  width: 96px;
+		  height: 96px;
+		  margin: 0 auto 10px;
+		}
+		#btn-sub {
+			margin-top: 28px;
+			padding: 10px 24px;
+		}
+		#code {
+			max-width: 120px;
+		}
+		#code-img {
+			margin-left: 12px;
+		}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div id="login-box" class="container">
+
+      <h2 class="login-title text-center">Exam 考试系统</h2>
+
+      <div class="box box-login">
+        <!--<img class="img-circle profile-img" src="img/avatar.png" alt="">-->
+        <div id="login-form" class="form-login">
+          <input type="text" id="userId" name="userId" class="form-control" placeholder="学号-工号" required autofocus>
+          
+          <input type="password" id="userPass" name="userPass" class="form-control" placeholder="密码" required>
+          
+          <input type="text" id="code" name="code" class="input-sm" placeholder="请输入验证码" required autofocus>
+          
+          <img id="code-img" onclick="changeImg()" src="http://127.0.0.1:8080/code" alt="验证码" />
+          
+          <button id="btn-sub" class="btn btn-lg btn-primary btn-block" onclick="sublimt()">登陆</button>
+
+          <div class="checkbox">
+            <a class="pull-right">帮助</a>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="text-center">
+        <a>XXXXX</a>
+      </p>
+
+    </div>
+
+<script type="text/javascript" src="/static/js/jquery-1.10.2.min.js" ></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script>
+	function changeImg() {
+		var imgSrc = $("#code-img");
+		var src = imgSrc.attr("src");
+		console.log(src);
+		imgSrc.attr("src", chgUrl(src));
+	}
+	//时间戳   
+	//为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳   
+	function chgUrl(url) {
+		var timestamp = (new Date()).valueOf();
+		//url = url.substring(0, 17);
+		return url+"?"+timestamp;
+		if ((url.indexOf("&") >= 0)) {
+			url = url + "×tamp=" + timestamp;
+		} else {
+			url = url + "?timestamp=" + timestamp;
+		}
+		return url;
+	}
+
+	function sublimt() {
+		var userId = $("#userId").val();
+		var userPass = $("#userPass").val();
+		var code = $("#code").val();
+		var user = {userId, userPass, code};
+		
+		ajaxSubmit(
+			"/login",
+			JSON.stringify(user),
+			function(data) {
+				if(data == 0) {
+					alert("验证码错误");
+				}
+				if(data == 1) {
+					alert("账号或密码错误");
+				}
+				if(data == 2) {
+					window.location="http://www.baidu.com";
+				}
+				if(data == 3) {
+					window.location="http://www.baidu.com";
+				}
+			},
+			function(data) {
+				alert("网络错误");
+			}
+		);
+	};
+</script>
+  </body>
+</html>
