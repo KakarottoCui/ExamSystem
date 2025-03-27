@@ -1,6 +1,6 @@
 # 在线考试管理系统
 
-演示视频：https://live.csdn.net/v/181383
+演示视频：https://www.bilibili.com/video/BV1bB4y1u7SK/
 
 实现的功能
 
